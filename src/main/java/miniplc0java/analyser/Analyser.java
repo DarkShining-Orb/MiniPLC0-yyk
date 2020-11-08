@@ -253,6 +253,7 @@ public final class Analyser {
 
             // 下个 token 是等于号吗？如果是的话分析初始化
             if(nextIf(TokenType.Equal) != null) {
+            	boolean initialized = true;
             	analyseExpression();  // 分析初始化的表达式
             }
             // 分号
@@ -278,17 +279,10 @@ public final class Analyser {
             var peeked = peek();
             if (peeked.getTokenType() == TokenType.Ident) {
                 // 调用相应的分析函数
-            	next();
-            	expect(TokenType.Equal);
-            	analyseExpression();
-            	expect(TokenType.Semicolon);
+            	analyseAssignmentStatement()
                 // 如果遇到其他非终结符的 FIRST 集呢？
             } else if (peeked.getTokenType() == TokenType.Print) {
-            	next();
-            	expect(TokenType.LParen);
-            	analyseExpression();
-            	expect(TokenType.RParen);
-            	expect(TokenType.Semicolon);
+            	analyseOutputStatement()
             } else if (peeked.getTokenType() == TokenType.Semicolon) {
             	expect(TokenType.Semicolon);
             } else {
@@ -350,6 +344,9 @@ public final class Analyser {
 
         // 分析这个语句
     	var nameToken = expect(TokenType.Ident);
+    	expect(TokenType.Equal);
+    	analyseExpression();
+    	expect(TokenType.Semicolon);
         // 标识符是什么？
         String name = (String) nameToken.getValue() ;//00000000000000000000000000000000000000000000000000000000
         var symbol = symbolTable.get(name);
@@ -361,10 +358,10 @@ public final class Analyser {
             throw new AnalyzeError(ErrorCode.AssignToConstant, /* 当前位置 */ nameToken.getStartPos());
         }
         // 设置符号已初始化
-        initializeSymbol(name, null);
+        initializeSymbol(name, token.getStartPos());
 
         // 把结果保存
-        var offset = getOffset(name, null);
+        var offset = getOffset(name, token.getStartPos());
         instructions.add(new Instruction(Operation.STO, offset));
     }
 
