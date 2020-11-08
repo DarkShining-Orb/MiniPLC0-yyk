@@ -430,7 +430,7 @@ public final class Analyser {
                 // 标识符没初始化
                 throw new AnalyzeError(ErrorCode.NotInitialized, /* 当前位置 */ nameToken.getStartPos());
             }
-            var offset = getOffset(name, null);
+            var offset = getOffset(name, nameToken.getStartPos());
             instructions.add(new Instruction(Operation.LOD, offset));
         } else if (check(TokenType.Uint)) {
             // 是整数
@@ -441,7 +441,9 @@ public final class Analyser {
         } else if (check(TokenType.LParen)) {
             // 是表达式
             // 调用相应的处理函数
+        	expect(TokenType.LParen);
         	analyseExpression();
+        	expect(TokenType.RParen);
         } else {
             // 都不是，摸了
             throw new ExpectedTokenError(List.of(TokenType.Ident, TokenType.Uint, TokenType.LParen), next());
