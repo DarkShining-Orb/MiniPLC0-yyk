@@ -40,7 +40,7 @@ public class Tokenizer {
 
     public Token lexUInt() throws TokenizeError {
         // 请填空：
-    	String str = new String;
+    	String str = new String();
     	Pos startu = it.currentPos();
         // 直到查看下一个字符不是数字为止:
     	while(Character.isDigit(it.peekchar())) {
