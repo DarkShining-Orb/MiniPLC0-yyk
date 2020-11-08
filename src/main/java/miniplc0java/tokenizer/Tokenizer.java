@@ -39,7 +39,7 @@ public class Tokenizer {
         }
     }
 
-    public Token lexUInt() throws TokenizeError {
+    private Token lexUInt() throws TokenizeError {
         // 请填空：
     	String str = new String();
     	Pos startu = it.currentPos();
@@ -62,7 +62,7 @@ public class Tokenizer {
         throw new Error("Not implemented");
     }
 
-    public Token lexIdentOrKeyword() throws TokenizeError {
+    private Token lexIdentOrKeyword() throws TokenizeError {
         // 请填空：
     	String str;
     	Pos startu = it.currentPos();
@@ -100,7 +100,7 @@ public class Tokenizer {
         throw new Error("Not implemented");
     }
 
-    public Token lexOperatorOrUnknown() throws TokenizeError {
+    private Token lexOperatorOrUnknown() throws TokenizeError {
         switch (it.nextChar()) {
             case '+':
                 return new Token(TokenType.Plus, '+', it.previousPos(), it.currentPos());

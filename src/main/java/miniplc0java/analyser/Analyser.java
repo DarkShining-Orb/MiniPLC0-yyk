@@ -205,7 +205,7 @@ public final class Analyser {
     	analyseConstantDeclaration();
     	analyseVariableDeclaration();
     	analyseStatementSequence();
-        throw new Error("Not implemented");
+        //throw new Error("Not implemented");
     }
 
     private void analyseConstantDeclaration() throws CompileError {
@@ -296,7 +296,7 @@ public final class Analyser {
                 break;
             }
         }
-        throw new Error("Not implemented");
+        //throw new Error("Not implemented");
     }
 
     private int analyseConstantExpression() throws CompileError {
@@ -351,7 +351,7 @@ public final class Analyser {
         // 分析这个语句
     	var nameToken = expect(TokenType.Ident);
         // 标识符是什么？
-        String name = null;//00000000000000000000000000000000000000000000000000000000
+        String name = (String) nameToken.getValue() ;//00000000000000000000000000000000000000000000000000000000
         var symbol = symbolTable.get(name);
         if (symbol == null) {
             // 没有这个标识符
@@ -424,7 +424,7 @@ public final class Analyser {
             // 是标识符
         	var nameToken = expect(TokenType.Ident);
             // 加载标识符的值
-            String name = /* 快填 */ nameToken.getValue();
+            String name = /* 快填 */ (String) nameToken.getValue();
             var symbol = symbolTable.get(name);
             if (symbol == null) {
                 // 没有这个标识符
@@ -439,7 +439,7 @@ public final class Analyser {
             // 是整数
         	var nameToken = expect(TokenType.Uint);
             // 加载整数值
-            int value = nameToken.getValue();
+            int value = (int) nameToken.getValue();
             instructions.add(new Instruction(Operation.LIT, value));
         } else if (check(TokenType.LParen)) {
             // 是表达式
@@ -453,6 +453,6 @@ public final class Analyser {
         if (negate) {
             instructions.add(new Instruction(Operation.SUB));
         }
-        throw new Error("Not implemented");
+        //throw new Error("Not implemented");
     }
 }
